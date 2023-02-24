@@ -6,12 +6,13 @@ import pandas as pd
 
 class Presentation:
 
-    def __init__(self, dark_mode:bool=True):
+    def __init__(self, path_dir_statics:str, dark_mode:bool=True):
         self.__list_section = []
         self.__dark_mode = dark_mode
+        self.__dir_statics = path_dir_statics
 
     def __get_layout(self):
-        return go.Layout(title='Line Chart', 
+        return go.Layout(autosize=True,
                    template='plotly_dark' if self.__dark_mode else None, #TODO(erfan): change it
                    )
 
@@ -21,14 +22,22 @@ class Presentation:
     def add_paragraph(self, paragraph:str):
         self.__list_section.append(f'<p>{paragraph}</p>')
 
-    def add_scatter(self, x_data:list[float], y_data:list[float]):
+    def add_scatter(self, x_data:list[float], y_data:list[float], title:str):
         # trace = go.Scatter(x=[1, 2, 3, 4], y=[10, 15, 13, 17])
         trace = go.Scatter(x=x_data, y=y_data)
         data = [trace]
-        fig = go.Figure(data=data, layout=self.__get_layout())
-        self.__list_section.append(self.__fig_to_html_div(fig=fig))
 
-    def __fig_to_html_div(self, fig:go.Figure) -> str:
+        fig = go.Figure(data=data)
+        self.__list_section.append(self.__fig_to_html_div(fig=fig,title=title))
+
+    def add_fig(self, plotly_fig:go.Figure):
+        self.__list_section.append(self.__fig_to_html_div(fig=plotly_fig))
+
+
+    def __fig_to_html_div(self, fig:go.Figure,title:str) -> str:
+        __layout = self.__get_layout()
+        __layout.title=title
+        fig.layout = __layout
         return to_html(fig, full_html=False, 
                                     #div_id='tt-aa-id',
                                     # include_plotlyjs=True
@@ -36,6 +45,7 @@ class Presentation:
                                     )
 
     def add_candlestick(self, df_price:pd.DataFrame, 
+                                title:str,
                                 col_name_date='date',
                                 col_name_open='open',
                                 col_name_high='high',
@@ -53,9 +63,11 @@ class Presentation:
             fig.update_layout(xaxis_rangeslider_visible=False)
 
 
-        self.__list_section.append(self.__fig_to_html_div(fig=fig))
+        self.__list_section.append(self.__fig_to_html_div(fig=fig,
+                title=title))
 
     def add_table_zebra(self, df_table:pd.DataFrame, 
+                        title:str,
                         headerColor:str = 'grey',
                         rowEvenColor:str = 'lightgrey',
                         rowOddColor:str = 'white'
@@ -81,13 +93,16 @@ class Presentation:
                                     align = ['left', 'center'],
                                     font = dict(color = 'darkslategray', size = 11)
                                     ))
-                            ]
+                            ],
+                    
+
                         )
-        self.__list_section.append(self.__fig_to_html_div(fig=fig))
+        self.__list_section.append(self.__fig_to_html_div(fig=fig, title=title))
 
 
     def get_html_str(self):
-        return f'<html><body>{"".join(self.__list_section)}</body></html>'
+        __css_str = f'<link rel="stylesheet" href="{self.__dir_statics}/style.css">'
+        return f'<html><head>{__css_str}</head><body class="{"body-dark" if self.__dark_mode else "body-light"}">{"<br/>".join(self.__list_section)}</body></html>'
 
     def save_html_file(self, path:str='presentation.html'):
         with open(path, "w") as text_file:
