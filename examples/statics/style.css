@@ -1,0 +1,37 @@
+/* Product Sans Bold Italic.ttf
+Product Sans Bold.ttf
+Product Sans Italic.ttf
+Product Sans Regular.ttf */
+
+@font-face {
+    font-family: "myFont";
+    src: url('./fonts/Product Sans Regular.ttf');
+}
+@font-face {
+    font-family: "myFont-italic";
+    src: url("./fonts/Product_Sans_Italic.ttf");
+}
+@font-face {
+    font-family: "myFont-bold";
+    src: url('./fonts/Product Sans Bold.ttf');
+}
+
+.body-dark {
+    font-family: "myFont";
+    background:#111111;
+    color: #FFFFFF;
+    padding: "10%";
+}
+
+/* body.body-dark h2, p, caption {padding-left:5%; padding-right:5%; padding-top:5%;} */
+body.body-dark h2 {padding-left:5%; padding-right:5%;padding-top:5%;}
+body.body-dark p {padding-left:5%; padding-right:5%;}
+
+.body-light {
+    font-family: "myFont";
+    background:#FFFFFF;
+    color: #111111;
+}
+
+body.body-light h2 {padding-left:5%; padding-right:5%;padding-top:5%;}
+body.body-light p {padding-left:5%; padding-right:5%;}
