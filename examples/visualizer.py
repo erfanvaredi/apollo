@@ -3,7 +3,7 @@ import pandas as pd
 
 import sys
 sys.path.append("..")
-from src.visual.html_visualizer import Presentation
+from src.apollo.html_visualizer import Presentation
 
 presentation = Presentation(
     dark_mode=True,
@@ -28,7 +28,6 @@ df_price = pd.DataFrame(dict_price)
 
 presentation.add_table_zebra(df_table=df_price,title='Zebra table')
 presentation.add_candlestick(df_price=df_price,title='Candle stick table')
-
 
 
 presentation.save_html_file(path='random2.html')
