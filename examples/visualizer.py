@@ -6,7 +6,7 @@ sys.path.append("..")
 from src.visual.html_visualizer import Presentation
 
 presentation = Presentation(
-    dark_mode=False,
+    dark_mode=True,
     path_dir_statics='./statics'
 )
 
