@@ -3,7 +3,7 @@ import pandas as pd
 
 import sys
 sys.path.append("..")
-from src.apollo.html_visualizer import Presentation
+from src.data_art.html_visualizer import Presentation
 
 presentation = Presentation(
     dark_mode=True,
