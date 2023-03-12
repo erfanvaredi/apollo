@@ -54,7 +54,7 @@ class Presentation:
         fig = go.Figure(data=data)
         self.__list_section.append(self.__fig_to_html_div(fig=fig,title=title))
 
-    def add_fig(self, plotly_fig:go.Figure):
+    def add_fig(self, plotly_fig:go.Figure, title:str):
         """Add custom plotly fig to the report
 
         Args:
@@ -62,7 +62,7 @@ class Presentation:
                 __fig = go.Scatter(x=x_data, y=y_data)
                 add_fig(plotly_fig=__fig)
         """
-        self.__list_section.append(self.__fig_to_html_div(fig=plotly_fig))
+        self.__list_section.append(self.__fig_to_html_div(fig=plotly_fig, title=title))
 
 
     def __fig_to_html_div(self, fig:go.Figure,title:str) -> str:
