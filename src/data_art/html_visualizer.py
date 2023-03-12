@@ -6,7 +6,7 @@ import pandas as pd
 
 class Presentation:
 
-    def __init__(self, path_dir_statics:str, dark_mode:bool=True):
+    def __init__(self, path_dir_statics:str, path_css_in_html:str=None, dark_mode:bool=True):
         """init function of the Presentation
 
         Args:
@@ -16,6 +16,7 @@ class Presentation:
         self.__list_section = []
         self.__dark_mode = dark_mode
         self.__dir_statics = path_dir_statics
+        self.__path_css_in_html = path_css_in_html
 
     def __get_layout(self):
         return go.Layout(autosize=True,
@@ -150,6 +151,8 @@ class Presentation:
                         )
         self.__list_section.append(self.__fig_to_html_div(fig=fig, title=title))
 
+    def __get_css_path(self)->str:
+        return self.__path_css_in_html if self.__path_css_in_html else f'./{self.__dir_statics.split("/")[-1]}/style.css'
 
     def get_html_str(self) -> str:
         """Generate the string (HTML in string) of the  report 
@@ -157,7 +160,7 @@ class Presentation:
         Returns:
             str: return the HTML in string
         """
-        __css_str = f'<link rel="stylesheet" href="{self.__dir_statics}/style.css">'
+        __css_str = f'<link rel="stylesheet" href="{self.__get_css_path()}">'
         return f'<html><head>{__css_str}</head><body class="{"body-dark" if self.__dark_mode else "body-light"}">{"<br/>".join(self.__list_section)}</body></html>'
 
     def save_html_file(self, path:str='presentation.html'):
